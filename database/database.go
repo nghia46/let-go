@@ -13,6 +13,7 @@ import (
 var DB *gorm.DB
 
 func ConnectDatabase() {
+
 	// Tải biến môi trường từ file .env
 	if err := godotenv.Load(); err != nil {
 		log.Printf("Không thể tải file .env: %v", err)
@@ -26,10 +27,10 @@ func ConnectDatabase() {
 
 	// Tạo chuỗi kết nối từ biến môi trường
 	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=require pool_mode= session",
 		getEnv("DB_HOST", "localhost"),
 		getEnv("DB_USER", "postgres"),
-		getEnv("DB_PASSWORD", "password"),
+		getEnv("DB_PASSWORD", "Abcd1234@"),
 		getEnv("DB_NAME", "postgres"),
 		getEnv("DB_PORT", "5432"),
 	)
@@ -38,7 +39,10 @@ func ConnectDatabase() {
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Không thể kết nối database:", err)
+	} else {
+		log.Println("Kết nối đến database thành công")
 	}
+
 }
 
 func getEnv(key, defaultValue string) string {

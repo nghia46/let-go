@@ -1,0 +1,111 @@
+basePath: /
+definitions:
+  models.Product:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: integer
+    type: object
+  models.User:
+    properties:
+      age:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server Petstore server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /products:
+    get:
+      consumes:
+      - application/json
+      description: Lấy toàn bộ danh sách sản phẩm
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Product'
+            type: array
+      summary: Lấy danh sách sản phẩm
+      tags:
+      - products
+    post:
+      consumes:
+      - application/json
+      description: Tạo sản phẩm mới với tên và giá
+      parameters:
+      - description: Sản phẩm mới
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/models.Product'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Product'
+      summary: Thêm sản phẩm mới
+      tags:
+      - products
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Lấy toàn bộ danh sách người dùng
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+      summary: Lấy danh sách người dùng
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Tạo người dùng mới với tên và tuổi
+      parameters:
+      - description: Người dùng mới
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Thêm người dùng mới
+      tags:
+      - users
+swagger: "2.0"

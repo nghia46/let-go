@@ -1,15 +1,23 @@
-#build stage
-FROM golang:alpine AS builder
-RUN apk add --no-cache git
-WORKDIR /go/src/app
-COPY . .
-RUN go get -d -v ./...
-RUN go build -o /go/bin/app -v ./...
+# Use the official Golang image
+FROM golang:1.24rc2-alpine3.21
 
-#final stage
-FROM alpine:latest
-RUN apk --no-cache add ca-certificates
-COPY --from=builder /go/bin/app /app
-ENTRYPOINT /app
-LABEL Name=letgo Version=0.0.1
+# Set the working directory
+WORKDIR /app
+
+# Copy go.mod and go.sum files
+COPY go.mod go.sum ./
+
+# Download dependencies
+RUN go mod download
+
+# Copy the rest of the source code
+COPY . .
+
+# Build the application
+RUN go build -o main .
+
+# Expose the application port
 EXPOSE 8080
+
+# Run the application
+CMD ["./main"]
